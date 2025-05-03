@@ -55,6 +55,12 @@ void BtsPort::handleMessage(BinaryMessage msg)
                 handler->handleAttachReject();
             break;
         }
+        case common::MessageId::UnknownRecipient:
+        case common::MessageId::CallRequest:
+        {
+            handler->handleCallMessage(msgId);
+            break;
+        }
         default:
             logger.logError("unknow message: ", msgId, ", from: ", from);
 
@@ -84,6 +90,12 @@ void BtsPort::sendAttachRequest(common::BtsId btsId)
     transport.sendMessage(msg.getMessage());
 
 
+}
+
+
+void BtsPort::sendCallRequest(common::PhoneNumber to) {
+    common::OutgoingMessage outgoingMessage = common::OutgoingMessage(common::MessageId::CallRequest, phoneNumber, to);
+    transport.sendMessage(outgoingMessage.getMessage());
 }
 
 }

@@ -1,4 +1,5 @@
 #include "BaseState.hpp"
+#include "NotConnectedState.hpp"
 
 namespace ue
 {
@@ -38,6 +39,11 @@ void BaseState::handleAttachReject()
 void BaseState::handleDisconnected()
 {
     logger.logError("handleDisconnected not implemented for this state");
+}
+
+void BaseState::handleCallMessage(common::MessageId msgId) 
+{
+    logger.logError("BaseState: handling call message.");
 }
 
 }

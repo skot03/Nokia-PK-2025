@@ -43,6 +43,9 @@ public:
     void setCloseGuard(CloseGuard closeGuard) override;
     void setAcceptCallback(Callback) override;
     void setRejectCallback(Callback) override;
+    void setHomeCallback(Callback) override;
+
+    void setDoubleClickCallback(Callback) override;
 
     void setTitle(const std::string& title) override;
     void showConnected() override;
@@ -74,6 +77,7 @@ private:
     IUeGui::Callback acceptCallback;
     IUeGui::Callback rejectCallback;
     IUeGui::Callback homeCallback;
+    IUeGui::Callback doubleClickCallback;
 
     void initGUI();
     void initInternalSignals();
@@ -122,6 +126,7 @@ private slots:
     void onTextEntered();
     void setConnectedStateSlot(QString text, bool connected);
     void setNewMessageSlot(bool);
+    void onDoubleClicked();
 
 private:
     template <typename ModeObject>

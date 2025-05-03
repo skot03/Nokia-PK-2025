@@ -5,11 +5,11 @@
 namespace ue
 {
 
-ConnectingState::ConnectingState(Context &context)
-    : BaseState(context, "ConnectingState")
-{
-    context.user.showConnecting();
-}
+    ConnectingState::ConnectingState(Context &context)
+        : BaseState(context, "ConnectingState")
+    {
+        context.user.showConnecting();
+    }
 
 void ConnectingState::enter()
 {
@@ -18,22 +18,22 @@ void ConnectingState::enter()
     context.timer.startTimer(500ms);
 }
 
-void ConnectingState::handleAttachAccept()
-{
-    context.timer.stopTimer();
-    context.setState<ConnectedState>();
-}
+    void ConnectingState::handleAttachAccept()
+    {
+        context.timer.stopTimer();
+        context.setState<ConnectedState>();
+    }
 
-void ConnectingState::handleAttachReject()
-{
-    context.timer.stopTimer();
-    context.setState<NotConnectedState>();
-}
+    void ConnectingState::handleAttachReject()
+    {
+        context.timer.stopTimer();
+        context.setState<NotConnectedState>();
+    }
 
-void ConnectingState::handleTimeout()
-{
-    context.user.showNotConnected();
-    context.setState<NotConnectedState>();
-}
+    void ConnectingState::handleTimeout()
+    {
+        context.user.showNotConnected();
+        context.setState<NotConnectedState>();
+    }
 
 }

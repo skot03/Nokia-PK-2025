@@ -1,5 +1,7 @@
 #include "ConnectedState.hpp"
 #include "NotConnectedState.hpp"
+#include "ScreenManager.hpp"
+#include "DialState.hpp"
 
 namespace ue
 {
@@ -7,6 +9,7 @@ namespace ue
 ConnectedState::ConnectedState(Context &context)
     : BaseState(context, "ConnectedState")
 {
+    context.user.doubleClickCallback([this] { switchScreen();});
     context.user.showConnected();
 }
 
@@ -17,4 +20,14 @@ void ConnectedState::handleDisconnected()
     context.setState<NotConnectedState>();
 }
 
+    void ConnectedState::switchScreen() {
+        switch (context.user.fetchScreenId()) {
+            case ScreenManager::CALL_VIEW:
+                context.setState<DialState>();
+                break;
+            case ScreenManager::NO_VIEW:
+                logger.logInfo("No view!");
+                break;
+        }
+}
 }

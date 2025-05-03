@@ -48,4 +48,9 @@ void Application::handleDisconnected()
     logger.logInfo("Application received disconnect event");
 }
 
+void Application::handleCallMessage(common::MessageId msgId) 
+{
+    context.state->handleCallMessage(msgId);
+}
+
 }
