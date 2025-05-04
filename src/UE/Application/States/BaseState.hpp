@@ -27,7 +27,10 @@ public:
     void handleAttachReject() override;
     void handleDisconnected() override;
     void handleCallMessage(common::MessageId msgId) override;
-
+    void handleSMSReceive(common::PhoneNumber from, std::string text) override;
+    void handleSMSSent(common::PhoneNumber to) override;
+    void handleSMSCompose(common::PhoneNumber to, const std::string &text) override;
+    
 protected:
     Context& context;
     common::PrefixedLogger logger;

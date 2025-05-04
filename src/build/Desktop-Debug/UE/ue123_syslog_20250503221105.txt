@@ -1,0 +1,12 @@
+#1,tid:129739802359744[DEBUG]: [phone:123]GUI: setConnectedStateSlot()
+#2,tid:129739802359744[DEBUG]: [phone:123]GUI: setNewMessageSlot(0)
+#3,tid:129739802359744[DEBUG]: [phone:123][TRANSPORT]Selected configuration localhost:8181
+#4,tid:129739802359744: [phone:123][APP] Started
+#5,tid:129739802359744[DEBUG]: [phone:123][NotConnectedState]entry
+#6,tid:129739802359744[DEBUG]: [phone:123]GUI: setConnectedStateSlot(Not connected)
+#7,tid:129739802359744[DEBUG]: [phone:123][TIMER PORT]Started
+#8,tid:129739802359744[ERROR]: [phone:123][TRANSPORT]Connection refused by peer
+#9,tid:129739802359744[DEBUG]: [phone:123][TIMER PORT]Stoped
+#10,tid:129739802359744: [phone:123][APP] Stopped
+#11,tid:129739802359744[DEBUG]: [phone:123][NotConnectedState]exit
+#12,tid:129739802359744[DEBUG]: [phone:123][TRANSPORT]Bye

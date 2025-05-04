@@ -1,0 +1,30 @@
+#1,tid:125080931116992[DEBUG]:[Application]started
+#2,tid:125080931116992[DEBUG]:[SPAWNER]Listen to new connections
+#3,tid:125080931116992[DEBUG]:[Console]Add: `a` for "Show address"
+#4,tid:125080931116992[DEBUG]:[Console]Add: `s` for "Show status"
+#5,tid:125080931116992[DEBUG]:[Console]Add: `l` for "List attached ue"
+#6,tid:125080931116992[DEBUG]:[Console]Add close: `q` for "quit"
+#7,tid:125080931116992[DEBUG]:[Console]Add help: `h` for "help"
+#8,tid:125080931116992[DEBUG]:[Console]Add: `t` for "Test commands - details in implementation"
+#9,tid:125080931116992[DEBUG]:Application loop started
+#10,tid:125080864556736[DEBUG]:[SIB]started
+#11,tid:125080854070976[DEBUG]:Console loop started
+#12,tid:125080931116992[DEBUG]:Session opened
+#13,tid:125080931116992:server started, port: 8181
+#14,tid:125080931116992[DEBUG]:New connection from: ::ffff:127.0.0.1-55594
+#15,tid:125080931116992[DEBUG]:[SPAWNER]new connection: ::ffff:127.0.0.1-55594
+#16,tid:125080931116992[DEBUG]:Send message to: ::ffff:127.0.0.1-55594
+#17,tid:125080931116992[DEBUG]:Message received from: ::ffff:127.0.0.1-55594 body: 017b00224b049b
+#18,tid:125080931116992[DEBUG]:[RELAY]Attached: ::ffff:127.0.0.1-55594:000:I
+#19,tid:125080931116992:[UE:::ffff:127.0.0.1-55594:123:A]Attached
+#20,tid:125080931116992[DEBUG]:Send message to: ::ffff:127.0.0.1-55594
+#21,tid:125080931116992[DEBUG]:Connection lost from: ::ffff:127.0.0.1-55594
+#22,tid:125080931116992:[UE:::ffff:127.0.0.1-55594:123:A]Disconnected
+#23,tid:125080931116992[DEBUG]:[RELAY]Removed attached: ::ffff:127.0.0.1-55594:123:A
+#24,tid:125080931116992[DEBUG]:QtTransport: bye
+#25,tid:125080854070976[DEBUG]:[Console]Console closed!
+#26,tid:125080854070976[DEBUG]:Console loop finished
+#27,tid:125080931116992[DEBUG]:Application loop finished
+#28,tid:125080864556736[DEBUG]:[SIB]finished
+#29,tid:125080931116992[DEBUG]:[SPAWNER]Stop listenning to new connections
+#30,tid:125080931116992[DEBUG]:[Application]finished

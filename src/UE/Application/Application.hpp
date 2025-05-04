@@ -6,6 +6,8 @@
 #include "Context.hpp"
 #include "Messages/IncomingMessage.hpp"
 #include "States/NotConnectedState.hpp"
+#include "States/ConnectedState.hpp"
+#include "SMSDb.hpp"
 
 namespace ue
 {
@@ -32,6 +34,10 @@ public:
     void handleAttachReject() override;
     void handleDisconnected() override;
     void handleCallMessage(common::MessageId msgId) override;
+
+    void handleSMSReceive(common::PhoneNumber from, std::string text) override;
+    void handleSMSSent(common::PhoneNumber to) override;
+    void handleSMSCompose(common::PhoneNumber to, const std::string& text) override;
 
     Context& getContext() { return context; }
 

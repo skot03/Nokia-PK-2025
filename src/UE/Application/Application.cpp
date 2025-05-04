@@ -1,5 +1,6 @@
 #include "Application.hpp"
 #include "States/NotConnectedState.hpp"
+#include "States/ConnectedState.hpp"
 
 namespace ue
 {
@@ -51,6 +52,24 @@ void Application::handleDisconnected()
 void Application::handleCallMessage(common::MessageId msgId) 
 {
     context.state->handleCallMessage(msgId);
+}
+
+void Application::handleSMSReceive(common::PhoneNumber from, std::string text)
+{
+    logger.logInfo("SMS received, sender: ", from);
+    context.state->handleSMSReceive(from, text);
+}
+void Application::handleSMSSent(common::PhoneNumber to)
+{
+    logger.logInfo("Handling SMS send for: ", to);
+    if (context.state)
+        context.state->handleSMSSent(to);
+}
+
+void Application::handleSMSCompose(common::PhoneNumber to, const std::string &text){
+    context.smsDb.addSMS(to, text);
+    context.bts.sendSMS(to, text);
+    context.setState<ConnectedState>();
 }
 
 }
