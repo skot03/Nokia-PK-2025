@@ -46,15 +46,4 @@ void BaseState::handleCallMessage(common::MessageId msgId)
     logger.logError("BaseState: handling call message.");
 }
 
-void BaseState::handleSMSReceive(common::PhoneNumber from, std::string text){
-    logger.logError("Unexpected: handleSMSReceive from: ", from, " text: ", text);
-}
-
-void BaseState::handleSMSSent(common::PhoneNumber to){
-    logger.logError("Unexpected: handleSMSSent for: ", to);
-}
-
-void BaseState::handleSMSCompose(common::PhoneNumber to, const std::string &text){
-    logger.logError("Unexpected: handleMSMSCompose for: ", to, ", text: ", text);
-}
 }
