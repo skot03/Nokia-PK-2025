@@ -54,4 +54,28 @@ void Application::handleCallMessage(common::MessageId msgId)
     context.state->handleCallMessage(msgId);
 }
 
+void Application::handleViewSmsList()
+{
+    context.state->handleViewSmsList();
+}
+
+void Application::handleViewSms(Sms& sms)
+{
+    context.state->handleViewSms(sms);
+}
+
+void Application::handleSendSms(const common::PhoneNumber& from, const common::PhoneNumber& to, const std::string& text)
+{
+    context.state->handleSendSms(from, to, text);
+}
+
+void Application::handleReceiveSMS(common::MessageId msgId,
+    common::PhoneNumber from,
+    common::PhoneNumber to,
+    const std::string& text)
+{
+context.state->handleReceiveSMS(msgId, from, to, text);
+}
+
+
 }

@@ -17,6 +17,7 @@ public:
     MOCK_METHOD(void, handleAttachReject, (), (final));
     MOCK_METHOD(void, handleDisconnected, (), (override));
     MOCK_METHOD(void, handleCallMessage, (common::MessageId msgId), (override));
+    MOCK_METHOD(void, handleReceiveSMS, (common::MessageId, common::PhoneNumber, common::PhoneNumber, const std::string&), (final));
 
 };
 
@@ -29,7 +30,7 @@ public:
     MOCK_METHOD(void, sendAttachRequest, (common::BtsId), (final));
     MOCK_METHOD(void, start, (IBtsEventsHandler&), (override));
     MOCK_METHOD(void, sendCallRequest, (common::PhoneNumber), (override));
-
+    MOCK_METHOD(void, sendSms, (common::PhoneNumber, const std::string &), (override));
 };
 
 }

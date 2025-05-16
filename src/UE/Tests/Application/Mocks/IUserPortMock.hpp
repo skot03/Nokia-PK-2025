@@ -11,7 +11,9 @@ class IUserEventsHandlerMock : public IUserEventsHandler
 public:
     IUserEventsHandlerMock();
     ~IUserEventsHandlerMock() override;
-
+    MOCK_METHOD(void, handleViewSmsList, (), (final)); 
+    MOCK_METHOD(void, handleViewSms, (Sms&), (final));
+    MOCK_METHOD(void, handleSendSms, (const common::PhoneNumber&, const common::PhoneNumber&, const std::string&), (final));
 };
 
 class IUserPortMock : public IUserPort

@@ -34,7 +34,15 @@ public:
     void handleAttachReject() override;
     void handleDisconnected() override;
     void handleCallMessage(common::MessageId msgId) override;
-
+    void handleReceiveSMS(
+        common::MessageId msgId,
+        common::PhoneNumber from,
+        common::PhoneNumber to,
+        const std::string& text
+    ) override;
+    void handleViewSmsList() override;
+    void handleViewSms(Sms& sms) override;
+    void handleSendSms(const common::PhoneNumber& from, const common::PhoneNumber& to, const std::string& text) override;
     Context& getContext() { return context; }
 
 private:

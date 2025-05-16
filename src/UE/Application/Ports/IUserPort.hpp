@@ -1,5 +1,5 @@
 #pragma once
-
+#include "SMSDb.hpp"
 #include <IUeGui.hpp>
 
 namespace ue
@@ -9,6 +9,9 @@ class IUserEventsHandler
 {
 public:
     virtual ~IUserEventsHandler() = default;
+    virtual void handleViewSmsList() = 0;
+    virtual void handleViewSms(Sms& sms) = 0;
+    virtual void handleSendSms(const common::PhoneNumber& from, const common::PhoneNumber& to, const std::string& text) = 0;
 };
 
 class IUserPort
