@@ -70,9 +70,9 @@ void Application::handleViewSms(Sms& sms)
     context.state->handleViewSms(sms);
 }
 
-void Application::handleSendSms(const common::PhoneNumber& from, const std::string& text)
+void Application::handleSendSms(const common::PhoneNumber& to, const std::string& text)
 {
-    context.state->handleSendSms(from, text);
+    context.state->handleSendSms(to, text);
 }
 
 void Application::handleReceiveSMS(common::MessageId msgId,
