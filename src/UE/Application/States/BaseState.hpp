@@ -29,10 +29,9 @@ public:
     void handleCallMessage(common::MessageId msgId) override;
     void handleViewSmsList() override;
     void handleViewSms(Sms& sms) override;
-    void handleSendSms(const common::PhoneNumber& from, const common::PhoneNumber& to, const std::string& text) override;
+    void handleSendSms(const common::PhoneNumber& from, const std::string& text) override;
     void handleReceiveSMS(common::MessageId msgId,
         common::PhoneNumber from,
-        common::PhoneNumber to,
         const std::string& text) override;
 protected:
     Context& context;

@@ -27,8 +27,8 @@ struct Sms {
        : phoneNumber(from), text(text), direction(SmsDirection::Received), status(SmsStatus::Unread)
     {}
 
-    Sms(common::PhoneNumber to, std::string text, SmsStatus initialStatus)
-        : phoneNumber(to), text(text), direction(SmsDirection::Sent), status(initialStatus)
+    Sms(common::PhoneNumber from, std::string text, SmsStatus initialStatus)
+        : phoneNumber(from), text(text), direction(SmsDirection::Sent), status(initialStatus)
     {}
 };
 
@@ -41,6 +41,8 @@ public:
     const std::vector<Sms>& getAllSMS() const;
     std::size_t getUnread() const;
     bool markAsRead(std::size_t idx);
+    std::vector<Sms>::iterator begin();
+	std::vector<Sms>::iterator end();
 
 private:
     std::optional<std::size_t> lastSmsIndex;

@@ -19,7 +19,6 @@ public:
     virtual void handleCallMessage(common::MessageId msgId) = 0;
     virtual void handleReceiveSMS(common::MessageId msgId,
         common::PhoneNumber from,
-        common::PhoneNumber to,
         const std::string& text) = 0;
 };
 

@@ -1,5 +1,6 @@
 #include "UserPort.hpp"
 #include "UeGui/IListViewMode.hpp"
+#include "UeGui/ISmsComposeMode.hpp"
 
 namespace ue
 {
@@ -41,6 +42,56 @@ void UserPort::showConnected()
     menu.addSelectionListItem("Call to someone", "");
 
     gui.setAcceptCallback([this, &menu]{ selectScreen(menu);});
+}
+
+void UserPort::composeSMS()
+{
+    IUeGui::ISmsComposeMode& composeMode = gui.setSmsComposeMode();
+    composeMode.clearSmsText();
+
+    gui.setAcceptCallback([this, &composeMode]() {
+        auto to = composeMode.getPhoneNumber();
+        auto text = composeMode.getSmsText();
+
+        if (to.isValid() && !text.empty())
+        {
+            handler->handleSendSms(phoneNumber, text);
+        }
+        else
+        {
+            logger.logError("Invalid recipient or empty message");
+        }
+    });
+
+    gui.setRejectCallback([this]() {
+        showConnected();
+    });
+}
+
+void UserPort::showSMS(Sms& sms) {
+   //TODO
+}
+  
+void UserPort::showSmsList(SmsDb& smsdb)
+{
+    IUeGui::IListViewMode& menu = gui.setListViewMode();
+    menu.clearSelectionList();
+
+    for (Sms& sms : smsdb)
+    {
+        std::string itemText = "From: " + std::to_string(sms.phoneNumber.value);
+        menu.addSelectionListItem(itemText, "");
+    }
+
+    gui.setAcceptCallback([this, &menu, &smsdb]() {
+        auto selected = menu.getCurrentItemIndex();
+        Sms& selectedSms = *(smsdb.begin() + selected.second);
+        handler->handleViewSms(selectedSms);
+    });
+
+    gui.setRejectCallback([this]() {
+        showConnected();
+    });
 }
 
 void UserPort::showPeerUserNotAvailable(common::PhoneNumber number) {

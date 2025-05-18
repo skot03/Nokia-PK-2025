@@ -11,7 +11,7 @@ public:
     virtual ~IUserEventsHandler() = default;
     virtual void handleViewSmsList() = 0;
     virtual void handleViewSms(Sms& sms) = 0;
-    virtual void handleSendSms(const common::PhoneNumber& from, const common::PhoneNumber& to, const std::string& text) = 0;
+    virtual void handleSendSms(const common::PhoneNumber& from, const std::string& text) = 0;
 };
 
 class IUserPort
@@ -23,7 +23,9 @@ public:
     virtual void showConnecting() = 0;
     virtual void showConnected() = 0;
     virtual void showPeerUserNotAvailable(common::PhoneNumber number) = 0;
-
+    virtual void showSmsList(SmsDb& smsdb) = 0; 
+    virtual void showSMS(Sms& sms) = 0;
+    virtual void composeSMS() = 0; 
     virtual void acceptCallback(IUeGui::Callback acceptCallback) = 0;
     virtual void rejectCallback(IUeGui::Callback rejectCallback) = 0;
     virtual void doubleClickCallback(IUeGui::Callback doubleClickCallback) = 0;

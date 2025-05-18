@@ -13,7 +13,7 @@ public:
     ~IUserEventsHandlerMock() override;
     MOCK_METHOD(void, handleViewSmsList, (), (final)); 
     MOCK_METHOD(void, handleViewSms, (Sms&), (final));
-    MOCK_METHOD(void, handleSendSms, (const common::PhoneNumber&, const common::PhoneNumber&, const std::string&), (final));
+    MOCK_METHOD(void, handleSendSms, (const common::PhoneNumber&, const std::string&), (final));
 };
 
 class IUserPortMock : public IUserPort
@@ -31,6 +31,10 @@ public:
     MOCK_METHOD(void, rejectCallback, (IUeGui::Callback), (override));
     MOCK_METHOD(void, homeCallback, (IUeGui::Callback), (override));
     MOCK_METHOD(void, doubleClickCallback, (IUeGui::Callback), (override));
+
+    MOCK_METHOD(void, showSmsList, (SmsDb&), (final));
+    MOCK_METHOD(void, showSMS, (Sms&), (final));
+    MOCK_METHOD(void, composeSMS, (), (final));
 
     MOCK_METHOD(int, fetchScreenId, (), (override));
     MOCK_METHOD(IUeGui::IDialMode&, activateDialMode, (), (override));

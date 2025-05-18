@@ -9,8 +9,8 @@ std::size_t SmsDb::addSMS(common::PhoneNumber from, const std::string& text) {
     return *lastSmsIndex;
 }
 
-std::size_t SmsDb::addSentSMS(common::PhoneNumber to, const std::string& text, Sms::SmsStatus initialStatus) {
-    messages.emplace_back(to, text, initialStatus); 
+std::size_t SmsDb::addSentSMS(common::PhoneNumber from, const std::string& text, Sms::SmsStatus initialStatus) {
+    messages.emplace_back(from, text, initialStatus); 
     lastSmsIndex = messages.size() - 1;
     return *lastSmsIndex;
 }
@@ -35,6 +35,16 @@ bool SmsDb::markAsRead(std::size_t idx) {
     messages[idx].status = Sms::SmsStatus::Read;
     return true;
     }
+}
+
+std::vector<Sms>::iterator SmsDb::begin()
+{
+	return messages.begin();
+}
+
+std::vector<Sms>::iterator SmsDb::end()
+{
+	return messages.end();
 }
 
 }

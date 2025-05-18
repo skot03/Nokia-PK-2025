@@ -56,14 +56,13 @@ void BaseState::handleViewSms(Sms& sms)
     logger.logError("Uexpected: handleViewSms");
 }
 
-void BaseState::handleSendSms(const common::PhoneNumber& from, const common::PhoneNumber& to, const std::string& text)
+void BaseState::handleSendSms(const common::PhoneNumber& from, const std::string& text)
 {
     logger.logError("Uexpected: handleSendSms");
 }
 
 void BaseState::handleReceiveSMS(common::MessageId msgId,
     common::PhoneNumber from,
-    common::PhoneNumber to,
     const std::string& text)
 {
 logger.logError("Uexpected: handleReceiveSMS");
