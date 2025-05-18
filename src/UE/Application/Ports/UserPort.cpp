@@ -1,4 +1,5 @@
 #include "UserPort.hpp"
+#include "UeGui/ITextMode.hpp"
 #include "UeGui/IListViewMode.hpp"
 
 namespace ue
@@ -61,6 +62,12 @@ void UserPort::acceptCallback(IUeGui::Callback acceptCallback) {
 
 void UserPort::rejectCallback(IUeGui::Callback rejectCallback) {
     gui.setRejectCallback(rejectCallback);
+}
+
+void UserPort::showCallRequest(common::PhoneNumber number)
+{
+    auto &alertMode = gui.setAlertMode();
+    alertMode.setText("Phone call by: " + to_string(number));
 }
 
 void UserPort::doubleClickCallback(IUeGui::Callback doubleClickCallback) {

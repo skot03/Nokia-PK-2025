@@ -9,7 +9,7 @@ Application::Application(common::PhoneNumber phoneNumber,
                          IBtsPort &bts,
                          IUserPort &user,
                          ITimerPort &timer)
-    : context{iLogger, bts, user, timer},
+    : context{phoneNumber,iLogger, bts, user, timer},
       logger(iLogger, "[APP] ")
 {
     logger.logInfo("Started");
@@ -48,9 +48,15 @@ void Application::handleDisconnected()
     logger.logInfo("Application received disconnect event");
 }
 
-void Application::handleCallMessage(common::MessageId msgId) 
+void Application::handleCallReceive(common::MessageId msgId, common::PhoneNumber from)
 {
-    context.state->handleCallMessage(msgId);
+    context.state->handleCallReceive(msgId, from);
+
+}
+
+void Application::handleCallMessage(common::MessageId msgId, common::PhoneNumber from)
+{
+    context.state->handleCallMessage(msgId, from);
 }
 
 }

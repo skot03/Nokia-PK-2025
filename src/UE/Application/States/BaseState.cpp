@@ -41,9 +41,14 @@ void BaseState::handleDisconnected()
     logger.logError("handleDisconnected not implemented for this state");
 }
 
-void BaseState::handleCallMessage(common::MessageId msgId) 
+void BaseState::handleCallReceive(common::MessageId msgId, common::PhoneNumber from)
 {
-    logger.logError("BaseState: handling call message.");
+    logger.logError("Processing incoming call");
+}
+
+void BaseState::handleCallMessage(common::MessageId msgId, common::PhoneNumber from)
+{
+    logger.logInfo("Received call message from", to_string(from), ", msgId=", (int)(msgId));
 }
 
 }

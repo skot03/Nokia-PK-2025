@@ -29,6 +29,9 @@ public:
     MOCK_METHOD(void, rejectCallback, (IUeGui::Callback), (override));
     MOCK_METHOD(void, homeCallback, (IUeGui::Callback), (override));
     MOCK_METHOD(void, doubleClickCallback, (IUeGui::Callback), (override));
+    MOCK_METHOD(void, showCallRequest, (common::PhoneNumber), (override));
+
+
 
     MOCK_METHOD(int, fetchScreenId, (), (override));
     MOCK_METHOD(IUeGui::IDialMode&, activateDialMode, (), (override));

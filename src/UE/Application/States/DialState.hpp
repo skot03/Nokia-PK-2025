@@ -12,8 +12,8 @@ namespace ue
         public:
             DialState(Context& context);
             void sendCallRequest();
-            void handleCallMessage(common::MessageId msgId) override;
             void handleTimeout() override;
+            void handleCallMessage(common::MessageId msgId, common::PhoneNumber from) override;
 
         private:
             IUeGui::IDialMode& iDialMode;

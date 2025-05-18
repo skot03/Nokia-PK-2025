@@ -58,7 +58,7 @@ void BtsPort::handleMessage(BinaryMessage msg)
         case common::MessageId::UnknownRecipient:
         case common::MessageId::CallRequest:
         {
-            handler->handleCallMessage(msgId);
+            handler->handleCallMessage(msgId, from);
             break;
         }
         default:
@@ -90,6 +90,18 @@ void BtsPort::sendAttachRequest(common::BtsId btsId)
     transport.sendMessage(msg.getMessage());
 
 
+}
+
+void BtsPort::sendCallDropped(common::PhoneNumber to)
+{
+    common::OutgoingMessage outgoingMessage(common::MessageId::CallDropped, phoneNumber, to);
+    transport.sendMessage(outgoingMessage.getMessage());
+}
+
+void BtsPort::sendCallAccept(common::PhoneNumber to)
+{
+    common::OutgoingMessage outgoingMessage = common::OutgoingMessage(common::MessageId::CallAccepted, phoneNumber, to);
+    transport.sendMessage(outgoingMessage.getMessage());
 }
 
 

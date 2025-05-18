@@ -18,6 +18,7 @@ public:
     void start(IUserEventsHandler& handler);
     void stop();
 
+    void showCallRequest(common::PhoneNumber) override;
     void showNotConnected() override;
     void showConnecting() override;
     void showConnected() override;

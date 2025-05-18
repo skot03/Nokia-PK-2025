@@ -26,6 +26,8 @@ public:
     virtual void doubleClickCallback(IUeGui::Callback doubleClickCallback) = 0;
     virtual void homeCallback(IUeGui::Callback homeCallback) = 0;
     virtual int fetchScreenId() = 0;
+
+    virtual void showCallRequest(common::PhoneNumber) = 0;
     
     virtual IUeGui::IDialMode &activateDialMode() = 0;
 };
