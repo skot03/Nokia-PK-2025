@@ -56,4 +56,34 @@ void ConnectedState::handleCallMessage(common::MessageId msgId, common::PhoneNum
         context.user.acceptCallback(accept);
     }
 }
+
+void ConnectedState::handleReceiveSMS(common::MessageId msgId,
+    common::PhoneNumber from,
+    const std::string& text) {
+    std::string log = std::string("SMS From ")
+    + std::to_string(from.value) + std::string(", content: ") + text;
+
+    logger.logInfo(log);
+    context.smsDb.addSMS(from, text); 
+
+}
+
+void ConnectedState::handleViewSmsList()
+{
+    logger.logInfo("View SMS list");
+    context.user.showSmsList(context.smsDb);
+}
+
+void ConnectedState::handleViewSms(Sms& sms)
+{
+    //TODO
+}
+
+void ConnectedState::handleSendSms(const common::PhoneNumber& from, const std::string& text)
+{
+    context.logger.logInfo("Send SMS to ", (int) from.value, " : ", text);
+
+    context.smsDb.addSentSMS(from, text);
+}
+
 }

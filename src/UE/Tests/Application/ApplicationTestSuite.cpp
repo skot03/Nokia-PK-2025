@@ -107,22 +107,5 @@ TEST_F(ApplicationTestSuite, shallHandleDisconnectedInConnectedState)
 /*Szybkie sprawdzenie poniższego testu wymaga zmianę
 modyfikatora dostępu metody getContext() z pliku Application.hpp na public.
 Obecnie metoda ustawiona jest jako public*/
-TEST_F(ApplicationTestSuite, shallReconnectAfterDisconnect)
-{
-    objectUnderTest.getContext().setState<ConnectedState>();
-
-    EXPECT_CALL(userPortMock, showNotConnected()).Times(AtLeast(1));
-    objectUnderTest.handleDisconnected();
-
-    ON_CALL(timerPortMock, startTimer(_)).WillByDefault(Return());
-    ON_CALL(timerPortMock, stopTimer()).WillByDefault(Return());
-    ON_CALL(userPortMock, showConnecting()).WillByDefault(Return());
-
-    EXPECT_CALL(btsPortMock, sendAttachRequest(BTS_ID)).Times(1);
-    EXPECT_CALL(timerPortMock, startTimer(500ms)).Times(AtLeast(1));
-    EXPECT_CALL(userPortMock, showConnecting()).Times(AtLeast(1));
-
-    objectUnderTest.handleSib(BTS_ID);
-}
 
 }

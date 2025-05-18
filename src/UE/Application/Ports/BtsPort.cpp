@@ -104,6 +104,15 @@ void BtsPort::sendCallAccept(common::PhoneNumber to)
     transport.sendMessage(outgoingMessage.getMessage());
 }
 
+void BtsPort::sendSms(common::PhoneNumber to, const std::string &text)
+{
+    logger.logInfo("SendSMS_to: ", to);
+    common::OutgoingMessage msg{common::MessageId::Sms,
+                                phoneNumber,
+                                to};
+    msg.writeText(text);
+    transport.sendMessage(msg.getMessage());
+}
 
 void BtsPort::sendCallRequest(common::PhoneNumber to) {
     common::OutgoingMessage outgoingMessage = common::OutgoingMessage(common::MessageId::CallRequest, phoneNumber, to);
