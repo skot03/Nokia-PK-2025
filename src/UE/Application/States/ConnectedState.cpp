@@ -3,6 +3,7 @@
 #include "ScreenManager.hpp"
 #include "DialState.hpp"
 #include "TalkingState.hpp"
+#include "ComposeSmsState.hpp"
 
 namespace ue
 {
@@ -23,6 +24,9 @@ void ConnectedState::handleDisconnected()
 
 void ConnectedState::switchScreen() {
     switch (context.user.fetchScreenId()) {
+        case ScreenManager::COMPOSE_SMS:
+            context.setState<ComposeSmsState>();
+            break;
         case ScreenManager::CALL_VIEW:
             context.setState<DialState>();
             break;

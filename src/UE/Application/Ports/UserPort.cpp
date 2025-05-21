@@ -53,16 +53,12 @@ void UserPort::composeSMS()
     gui.setAcceptCallback([this, &composeMode]() {
         auto to = composeMode.getPhoneNumber();
         auto text = composeMode.getSmsText();
-
         if (to.isValid() && !text.empty())
         {
-            handler->handleSendSms(phoneNumber, text);
-        }
-        else
-        {
-            logger.logError("Invalid recipient or empty message");
+            handler->handleSendSms(to, text);
         }
     });
+
 
     gui.setRejectCallback([this]() {
         showConnected();
