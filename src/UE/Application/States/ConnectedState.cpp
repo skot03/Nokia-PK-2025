@@ -4,6 +4,7 @@
 #include "DialState.hpp"
 #include "TalkingState.hpp"
 #include "ComposeSmsState.hpp"
+#include "ViewSmsListState.hpp"
 
 namespace ue
 {
@@ -26,6 +27,9 @@ void ConnectedState::switchScreen() {
     switch (context.user.fetchScreenId()) {
         case ScreenManager::COMPOSE_SMS:
             context.setState<ComposeSmsState>();
+            break;
+        case ScreenManager::VIEW_SMS:
+            context.setState<ViewSmsListState>();
             break;
         case ScreenManager::CALL_VIEW:
             context.setState<DialState>();
@@ -61,33 +65,18 @@ void ConnectedState::handleCallMessage(common::MessageId msgId, common::PhoneNum
     }
 }
 
-void ConnectedState::handleReceiveSMS(common::MessageId msgId,
-    common::PhoneNumber from,
-    const std::string& text) {
-    std::string log = std::string("SMS From ")
-    + std::to_string(from.value) + std::string(", content: ") + text;
-
-    logger.logInfo(log);
-    context.smsDb.addSMS(from, text); 
-
-}
-
-void ConnectedState::handleViewSmsList()
+void ConnectedState::handleReceiveSMS(common::MessageId msgId,common::PhoneNumber from,const std::string& text)
 {
-    logger.logInfo("View SMS list");
-    context.user.showSmsList(context.smsDb);
+    logger.logInfo(std::string("SMS from ")+ std::to_string(from.value) + std::string(" : ") + text); 
+    context.smsDb.addSMS(from, text);
 }
 
-void ConnectedState::handleViewSms(Sms& sms)
+void ConnectedState::handleSendSms(const common::PhoneNumber& to, const std::string& text)
 {
-    //TODO
+    context.bts.sendSms(to, text);
+    context.smsDb.addSentSMS(context.phoneNumber, text);
+    context.setState<ConnectedState>();
+}
 }
 
-void ConnectedState::handleSendSms(const common::PhoneNumber& from, const std::string& text)
-{
-    context.logger.logInfo("Send SMS to ", (int) from.value, " : ", text);
 
-    context.smsDb.addSentSMS(from, text);
-}
-
-}
