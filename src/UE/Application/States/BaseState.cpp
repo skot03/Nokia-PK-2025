@@ -51,4 +51,31 @@ void BaseState::handleCallMessage(common::MessageId msgId, common::PhoneNumber f
     logger.logInfo("Received call message from", to_string(from), ", msgId=", (int)(msgId));
 }
 
+void BaseState::handleViewSmsList()
+{
+    logger.logError("Uexpected: handleViewSmsList");
+}
+
+void BaseState::handleViewSms(Sms& sms)
+{
+    logger.logError("Uexpected: handleViewSms");
+}
+
+void BaseState::handleSendSms(const common::PhoneNumber& from, const std::string& text)
+{
+    logger.logError("Uexpected: handleSendSms");
+}
+
+void BaseState::handleReceiveSMS(common::MessageId msgId,
+    common::PhoneNumber from,
+    const std::string& text)
+{
+logger.logError("Uexpected: handleReceiveSMS");
+}
+
+void BaseState::handleCallTalk(common::PhoneNumber from, const std::string& text)
+{
+    logger.logError("Unexpected: Call talk from ", to_string(from), " with text: ", text);
+}
+
 }
