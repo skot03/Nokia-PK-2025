@@ -1,3 +1,4 @@
+#include "UeGui/ICallMode.hpp"
 #include "DialState.hpp"
 #include "TalkingState.hpp"
 
@@ -12,17 +13,24 @@ namespace ue {
     }
 
     void DialState::sendCallRequest() {
-        logger.logDebug("[DialState] requesting to: ", iDialMode.getPhoneNumber());
+        logger.logDebug("DialState -> making request to: ", iDialMode.getPhoneNumber());
 
         context.bts.sendCallRequest(iDialMode.getPhoneNumber());
         context.timer.startTimer(1000ms);
     }
 
     void DialState::handleCallMessage(common::MessageId msgId, common::PhoneNumber from) {
+        context.phoneNumber = from;
+
         switch (msgId) {
             case common::MessageId::CallAccepted:
                 context.timer.stopTimer();
                 context.setState<TalkingState>();
+            break;
+            case common::MessageId::CallDropped:
+                context.timer.stopTimer();
+                context.setState<ConnectedState>();
+                context.user.showCallDropped();
             break;
             case common::MessageId::UnknownRecipient:
                 context.timer.stopTimer();
@@ -32,7 +40,17 @@ namespace ue {
         }
     }
 
-    void DialState::handleTimeout() {
-        printf("[DialState] handle timeout.\n");
+    void DialState::handleReject(common::PhoneNumber from) {
+        context.timer.stopTimer();
+        context.bts.sendCallDropped(from);
+        context.setState<ConnectedState>();
     }
+
+    void DialState::handleTimeout() {
+        context.timer.stopTimer();
+        context.setState<ConnectedState>();
+        context.user.showCallTimeout();
+    }
+
+
 }
