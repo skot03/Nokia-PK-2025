@@ -124,5 +124,4 @@ TEST_F(ApplicationTestSuite, shallReconnectAfterDisconnect)
 
     objectUnderTest.handleSib(BTS_ID);
 }
-
 }

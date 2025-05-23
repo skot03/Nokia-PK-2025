@@ -16,8 +16,14 @@ public:
     virtual void handleAttachAccept() = 0;
     virtual void handleAttachReject() = 0;
     virtual void handleDisconnected() = 0;
+    virtual void handleReceiveSMS(common::MessageId msgId,
+        common::PhoneNumber from,
+        const std::string& text) = 0;
     virtual void handleCallReceive(common::MessageId msgId, common::PhoneNumber from) = 0;
     virtual void handleCallMessage(common::MessageId msgId, common::PhoneNumber from) = 0;
+    virtual void handleCallTalk(common::PhoneNumber, const std::string&) = 0;
+
+
    
 };
 
@@ -25,12 +31,14 @@ class IBtsPort
 {
 public:
     virtual ~IBtsPort() = default;
-
+    virtual void sendSms(common::PhoneNumber to, const std::string &text) = 0;
     virtual void start(IBtsEventsHandler& handler) = 0;
     virtual void sendAttachRequest(common::BtsId) = 0;
     virtual void sendCallDropped(common::PhoneNumber to) = 0;
     virtual void sendCallAccept(common::PhoneNumber) = 0;
     virtual void sendCallRequest(common::PhoneNumber) = 0;
+    virtual void sendCallTalk(common::PhoneNumber to, const std::string& text) = 0;
+
 };
 
 }

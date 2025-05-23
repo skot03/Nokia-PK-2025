@@ -23,16 +23,25 @@ public:
     void showConnecting() override;
     void showConnected() override;
     void showPeerUserNotAvailable(common::PhoneNumber number) override;
-
+    void showSmsList(SmsDb& smsdb) override; 
+    void showSMS(Sms& sms) override;
+    void composeSMS() override; 
     virtual void acceptCallback(IUeGui::Callback acceptCallback) override;
     virtual void rejectCallback(IUeGui::Callback rejectCallback) override;
     
     virtual void homeCallback(IUeGui::Callback homeCallback) override;
     virtual int fetchScreenId() override;
     virtual void doubleClickCallback(IUeGui::Callback doubleClickCallback) override;
+    virtual void showCallDropped() override;
+    virtual void showCallTimeout() override;
+    virtual void setCloseGuard(IUeGui::CloseGuard guard) override;
+    virtual void showCallAlert(const std::string& message, std::function<void()> callback) override;
+
+
 
     IUeGui::IListViewMode& getMenuRef();
 
+    virtual IUeGui::ICallMode &activateCallMode() override;
     virtual IUeGui::IDialMode &activateDialMode() override;
 
 
