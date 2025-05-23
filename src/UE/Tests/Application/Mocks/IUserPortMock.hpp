@@ -32,11 +32,13 @@ public:
     MOCK_METHOD(void, homeCallback, (IUeGui::Callback), (override));
     MOCK_METHOD(void, doubleClickCallback, (IUeGui::Callback), (override));
     MOCK_METHOD(void, showCallRequest, (common::PhoneNumber), (override));
+    MOCK_METHOD(void, showText, (const std::string& text), (override));
+    MOCK_METHOD(int, getSelectedSmsIndex, (), (const, override));
     MOCK_METHOD(void, showCallDropped, (), (override));
     MOCK_METHOD(void, showCallTimeout, (), (override));
 
     MOCK_METHOD(void, showSmsList, (SmsDb&), (final));
-    MOCK_METHOD(void, showSMS, (Sms&), (final));
+    MOCK_METHOD(void, showSMS, (const Sms&), (final));
     MOCK_METHOD(void, composeSMS, (), (final));
 
     MOCK_METHOD(int, fetchScreenId, (), (override));

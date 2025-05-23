@@ -6,7 +6,9 @@ class ScreenManager {
 public:
     enum Type {
         NO_VIEW = -1,
-        CALL_VIEW = 2
+        CALL_VIEW = 2,
+        COMPOSE_SMS = 0,
+        VIEW_SMS = 1
     };
 };
 

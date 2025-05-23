@@ -53,24 +53,20 @@ void UserPort::composeSMS()
     gui.setAcceptCallback([this, &composeMode]() {
         auto to = composeMode.getPhoneNumber();
         auto text = composeMode.getSmsText();
-
         if (to.isValid() && !text.empty())
         {
-            handler->handleSendSms(phoneNumber, text);
-        }
-        else
-        {
-            logger.logError("Invalid recipient or empty message");
+            handler->handleSendSms(to, text);
         }
     });
+
 
     gui.setRejectCallback([this]() {
         showConnected();
     });
 }
 
-void UserPort::showSMS(Sms& sms) {
-   //TODO
+void UserPort::showSMS(const Sms& sms) {
+   gui.setViewTextMode().setText("FROM: " + to_string(sms.phoneNumber) + "\n\n" + sms.text);
 }
   
 void UserPort::showSmsList(SmsDb& smsdb)
@@ -93,6 +89,17 @@ void UserPort::showSmsList(SmsDb& smsdb)
     gui.setRejectCallback([this]() {
         showConnected();
     });
+}
+
+void UserPort::showText(const std::string& text)
+{
+    gui.setViewTextMode().setText(text);
+}
+
+int UserPort::getSelectedSmsIndex() const {
+    IUeGui::IListViewMode& menu = gui.setListViewMode();
+    IUeGui::IListViewMode::OptionalSelection sel = menu.getCurrentItemIndex();
+    return sel.first ? sel.second : -1;
 }
 
 void UserPort::showPeerUserNotAvailable(common::PhoneNumber number) {
