@@ -13,6 +13,7 @@ public:
     void handleCallMessage(common::MessageId msgId, common::PhoneNumber from) override;
     void handleReceiveSMS(common::MessageId msgId,common::PhoneNumber from,const std::string& text) override;
     void handleSendSms(const common::PhoneNumber& to, const std::string& text) override;
+    void handleViewSms(Sms& sms) override;
     virtual void switchScreen();
 };
 

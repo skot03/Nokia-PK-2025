@@ -77,6 +77,13 @@ void ConnectedState::handleSendSms(const common::PhoneNumber& to, const std::str
     context.smsDb.addSentSMS(context.phoneNumber, text);
     context.setState<ConnectedState>();
 }
+
+void ConnectedState::handleViewSms(Sms& sms)
+{
+    sms.status = Sms::SmsStatus::Read;
+    std::string text = "FROM: " + to_string(sms.phoneNumber) + "\n\n" + sms.text;
+    context.user.showText(text);
+}
 }
 
 

@@ -23,8 +23,10 @@ public:
     virtual void showConnecting() = 0;
     virtual void showConnected() = 0;
     virtual void showPeerUserNotAvailable(common::PhoneNumber number) = 0;
-    virtual void showSmsList(SmsDb& smsdb) = 0; 
-    virtual void showSMS(Sms& sms) = 0;
+    virtual void showSmsList(SmsDb& smsdb) = 0;
+    virtual void showSMS(const Sms& sms) = 0;
+    virtual void showText(const std::string& text) = 0;
+    virtual int getSelectedSmsIndex() const = 0;
     virtual void composeSMS() = 0; 
     virtual void acceptCallback(IUeGui::Callback acceptCallback) = 0;
     virtual void rejectCallback(IUeGui::Callback rejectCallback) = 0;

@@ -23,8 +23,10 @@ public:
     void showConnecting() override;
     void showConnected() override;
     void showPeerUserNotAvailable(common::PhoneNumber number) override;
-    void showSmsList(SmsDb& smsdb) override; 
-    void showSMS(Sms& sms) override;
+    void showSmsList(SmsDb& smsdb) override;
+    void showSMS(const Sms& sms) override;
+    void showText(const std::string& text) override;
+    int getSelectedSmsIndex() const override;
     void composeSMS() override; 
     virtual void acceptCallback(IUeGui::Callback acceptCallback) override;
     virtual void rejectCallback(IUeGui::Callback rejectCallback) override;
