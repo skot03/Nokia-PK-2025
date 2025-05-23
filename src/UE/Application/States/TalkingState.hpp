@@ -6,8 +6,10 @@ namespace ue
 {
     class TalkingState : public ConnectedState
     {
-        public:
-            TalkingState(Context& context);
-            void handleCallMessage(common::MessageId msgId, common::PhoneNumber from) override;
+        IUeGui::ICallMode& iCallMode;
+    public:
+        TalkingState(Context& context);
+        void handleCallTalk(common::PhoneNumber from, const std::string& text) override;
+        void handleCallMessage(common::MessageId msgId, common::PhoneNumber from) override;
     };
 }

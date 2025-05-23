@@ -33,7 +33,15 @@ public:
     virtual int fetchScreenId() = 0;
 
     virtual void showCallRequest(common::PhoneNumber) = 0;
+
+    virtual void showCallDropped() = 0;
+    virtual void showCallTimeout() = 0;
+    virtual void setCloseGuard(IUeGui::CloseGuard) = 0;
+    virtual void showCallAlert(const std::string& message, std::function<void()> callback) = 0;
+
+
     
+    virtual IUeGui::ICallMode &activateCallMode() = 0;
     virtual IUeGui::IDialMode &activateDialMode() = 0;
 };
 

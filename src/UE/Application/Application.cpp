@@ -82,5 +82,10 @@ void Application::handleReceiveSMS(common::MessageId msgId,
 context.state->handleReceiveSMS(msgId, from, text);
 }
 
+void Application::handleCallTalk(common::PhoneNumber from, const std::string& text)
+{
+    context.state->handleCallTalk(from, text);
+}
+
 
 }

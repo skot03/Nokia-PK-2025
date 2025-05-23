@@ -32,9 +32,16 @@ public:
     virtual void homeCallback(IUeGui::Callback homeCallback) override;
     virtual int fetchScreenId() override;
     virtual void doubleClickCallback(IUeGui::Callback doubleClickCallback) override;
+    virtual void showCallDropped() override;
+    virtual void showCallTimeout() override;
+    virtual void setCloseGuard(IUeGui::CloseGuard guard) override;
+    virtual void showCallAlert(const std::string& message, std::function<void()> callback) override;
+
+
 
     IUeGui::IListViewMode& getMenuRef();
 
+    virtual IUeGui::ICallMode &activateCallMode() override;
     virtual IUeGui::IDialMode &activateDialMode() override;
 
 

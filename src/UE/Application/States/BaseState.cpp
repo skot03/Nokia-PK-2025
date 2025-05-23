@@ -73,4 +73,9 @@ void BaseState::handleReceiveSMS(common::MessageId msgId,
 logger.logError("Uexpected: handleReceiveSMS");
 }
 
+void BaseState::handleCallTalk(common::PhoneNumber from, const std::string& text)
+{
+    logger.logError("Unexpected: Call talk from ", to_string(from), " with text: ", text);
+}
+
 }
