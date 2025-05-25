@@ -141,13 +141,12 @@ TEST_F(ApplicationTestSuite, shallReconnectAfterDisconnect)
 
     objectUnderTest.handleSib(BTS_ID);
 }
-// Nowy, rozszerzony zestaw testów dla funkcjonalności wybierania numeru (DialState)
 
-struct ApplicationDialStateTestSuite : Test // Zmieniona nazwa na bardziej ogólną
+struct ApplicationDialStateTestSuite : Test 
 {
     const common::PhoneNumber PHONE_NUMBER{112}; 
-    const common::PhoneNumber DIALED_PHONE_NUMBER{200}; // Poprawiona wartość
-    const common::PhoneNumber OTHER_CALLER_ID{150};   // Inny numer dla testów połączeń przychodzących
+    const common::PhoneNumber DIALED_PHONE_NUMBER{200}; 
+    const common::PhoneNumber OTHER_CALLER_ID{150};  
     const common::BtsId BTS_ID{1024};
 
     NiceMock<common::ILoggerMock> loggerMock;
@@ -155,7 +154,7 @@ struct ApplicationDialStateTestSuite : Test // Zmieniona nazwa na bardziej ogól
     NiceMock<IUserPortMock> userPortMock;
     NiceMock<ITimerPortMock> timerPortMock;
     NiceMock<IDialModeMock> dialModeMock;   
-    NiceMock<ICallModeMock> callModeMock;   // Dla przejścia do TalkingState
+    NiceMock<ICallModeMock> callModeMock;   
 
     Application objectUnderTest{PHONE_NUMBER,
                                  loggerMock,
@@ -163,7 +162,6 @@ struct ApplicationDialStateTestSuite : Test // Zmieniona nazwa na bardziej ogól
                                  userPortMock,
                                  timerPortMock};
 
-    // Callbacks
     std::function<void()> capturedDialStateHomeCallback;
     std::function<void()> capturedDialStateAcceptCallback;
     std::function<void()> capturedIncomingCallAcceptCallback;
@@ -171,14 +169,12 @@ struct ApplicationDialStateTestSuite : Test // Zmieniona nazwa na bardziej ogól
 
     ApplicationDialStateTestSuite()
     {
-        // --- Setup: Przejście do stanu Connected ---
         ON_CALL(timerPortMock, startTimer(_)).WillByDefault(Return());
         ON_CALL(timerPortMock, stopTimer()).WillByDefault(Return());
         ON_CALL(userPortMock, showNotConnected()).WillByDefault(Return());
         ON_CALL(userPortMock, showConnecting()).WillByDefault(Return());
         ON_CALL(userPortMock, showConnected()).WillByDefault(Return());
         ON_CALL(btsPortMock, sendAttachRequest(_)).WillByDefault(Return());
-        // Jeśli loggerMock.log jest wywoływany w setupie, dodaj ON_CALL:
         ON_CALL(loggerMock, log(testing::_, testing::_)).WillByDefault(Return());
 
 
@@ -197,7 +193,6 @@ struct ApplicationDialStateTestSuite : Test // Zmieniona nazwa na bardziej ogól
         Mock::VerifyAndClearExpectations(&timerPortMock);
         Mock::VerifyAndClearExpectations(&userPortMock);
 
-        // --- Setup: Przejście do stanu DialState ---
         ON_CALL(dialModeMock, getPhoneNumber()).WillByDefault(Return(DIALED_PHONE_NUMBER));
 
         EXPECT_CALL(userPortMock, activateDialMode())
