@@ -40,6 +40,8 @@ public:
     MOCK_METHOD(void, showSmsList, (SmsDb&), (final));
     MOCK_METHOD(void, showSMS, (const Sms&), (final));
     MOCK_METHOD(void, composeSMS, (), (final));
+    MOCK_METHOD(void, showNewSmsNotification, (), (override));
+    MOCK_METHOD(void, noNewSmsNotification, (), (override));
 
     MOCK_METHOD(int, fetchScreenId, (), (override));
     MOCK_METHOD(void, setCloseGuard, (IUeGui::CloseGuard guard), (override));

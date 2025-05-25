@@ -80,7 +80,9 @@ void ConnectedState::handleCallMessage(common::MessageId msgId, common::PhoneNum
 
 void ConnectedState::handleReceiveSMS(common::MessageId msgId,common::PhoneNumber from,const std::string& text)
 {
+    
     logger.logInfo(std::string("SMS from ")+ std::to_string(from.value) + std::string(" : ") + text); 
+    context.user.showNewSmsNotification();
     context.smsDb.addSMS(from, text);
 }
 
@@ -102,6 +104,21 @@ void ConnectedState::handleViewSms(Sms& sms)
     }
 
     std::string fullText = header + "\n\n" + sms.text;
+    if(sms.status == Sms::SmsStatus::Unread)
+    {
+        sms.status = Sms::SmsStatus::Read;
+    }
+
+    if(context.smsDb.getUnread()==0)
+    {
+        context.user.noNewSmsNotification();
+    }
+    else 
+    {
+        context.user.showNewSmsNotification();
+    }
+    
+
     context.user.showText(fullText);
 }
 }

@@ -29,14 +29,6 @@ std::size_t SmsDb::getUnread() const {
     return count;
 }
 
-bool SmsDb::markAsRead(std::size_t idx) {
-    if (idx >= messages.size()) {
-        return false;
-    }
-    messages[idx].status = Sms::SmsStatus::Read;
-    return true;
-}
-
 std::vector<Sms>::iterator SmsDb::begin()
 {
 	return messages.begin();
