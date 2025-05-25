@@ -4,13 +4,13 @@
 namespace ue {
 
 std::size_t SmsDb::addSMS(common::PhoneNumber from, const std::string& text) {
-    messages.emplace_back(from, text);
+    messages.insert(messages.begin(), Sms(from, text));
     lastSmsIndex = messages.size() - 1;
     return *lastSmsIndex;
 }
 
 std::size_t SmsDb::addSentSMS(common::PhoneNumber from, const std::string& text, Sms::SmsStatus initialStatus) {
-    messages.emplace_back(from, text, initialStatus); 
+    messages.insert(messages.begin(), Sms(from, text, initialStatus));
     lastSmsIndex = messages.size() - 1;
     return *lastSmsIndex;
 }

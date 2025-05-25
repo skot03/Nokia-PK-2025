@@ -66,7 +66,19 @@ void UserPort::composeSMS()
 }
 
 void UserPort::showSMS(const Sms& sms) {
-   gui.setViewTextMode().setText("FROM: " + to_string(sms.phoneNumber) + "\n\n" + sms.text);
+    std::string header;
+
+    if (sms.direction == Sms::SmsDirection::Sent)
+    {
+        header = "TO: " + to_string(sms.phoneNumber);
+    }
+    else
+    {
+        header = "FROM: " + to_string(sms.phoneNumber);
+    }
+
+    gui.setViewTextMode().setText(header + "\n\n" + sms.text);
+
 }
   
 void UserPort::showSmsList(SmsDb& smsdb)
@@ -74,11 +86,24 @@ void UserPort::showSmsList(SmsDb& smsdb)
     IUeGui::IListViewMode& menu = gui.setListViewMode();
     menu.clearSelectionList();
 
-    for (Sms& sms : smsdb)
+    for (const Sms& sms : smsdb)
     {
-        std::string itemText = "From: " + std::to_string(sms.phoneNumber.value);
+        std::string itemText;
+
+        if (sms.direction == Sms::SmsDirection::Sent)
+        {
+            itemText = "To: " + std::to_string(sms.phoneNumber.value);
+        }
+        else
+        {
+            itemText = "From: " + std::to_string(sms.phoneNumber.value);
+            if (sms.status == Sms::SmsStatus::Unread)
+                itemText += " !";
+        }
+
         menu.addSelectionListItem(itemText, "");
     }
+
 
     gui.setAcceptCallback([this, &menu, &smsdb]() {
         auto selected = menu.getCurrentItemIndex();

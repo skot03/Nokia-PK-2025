@@ -8,8 +8,6 @@ class ComposeSmsState : public ConnectedState
 {
 public:
     ComposeSmsState(Context& context);
-
-    void handleSendSms(common::PhoneNumber to, std::string text);
 };
 
 }
