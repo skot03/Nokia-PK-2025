@@ -14,6 +14,10 @@
 #include "States/DialState.hpp"
 #include "Mocks/IUeGuiMock.hpp"
 #include "Messages/PhoneNumber.hpp"
+#include "Messages/PhoneNumber.hpp"
+#include "States/ComposeSmsState.hpp"
+#include "States/ViewSmsListState.hpp"
+#include "States/ViewSmsState.hpp"
 #include <memory>
 
 namespace ue
@@ -267,6 +271,91 @@ TEST_F(ApplicationDialStateTestSuite, HandleCallMessage_UnknownRecipient_ShouldS
     EXPECT_CALL(dialModeMock, getPhoneNumber()).WillOnce(Return(DIALED_PHONE_NUMBER));
     EXPECT_CALL(userPortMock, showPeerUserNotAvailable(DIALED_PHONE_NUMBER)).Times(1);
     objectUnderTest.handleCallMessage(common::MessageId::UnknownRecipient, DIALED_PHONE_NUMBER);
+}
+
+struct ApplicationSmsStateTestSuite : Test {
+    const common::PhoneNumber PHONE_NUMBER{111};
+    const common::PhoneNumber SENDER{123};
+    const common::PhoneNumber RECEIVER{222};
+    const common::BtsId BTS_ID{1};
+    const std::string MESSAGE_TEXT = "text";
+
+    NiceMock<common::ILoggerMock> loggerMock;
+    NiceMock<IBtsPortMock> btsPortMock;
+    NiceMock<IUserPortMock> userPortMock;
+    NiceMock<ITimerPortMock> timerPortMock;
+
+    Application app{PHONE_NUMBER, loggerMock, btsPortMock, userPortMock, timerPortMock};
+
+    ApplicationSmsStateTestSuite()
+    {
+        // Symulacja podłączenia do sieci
+        EXPECT_CALL(userPortMock, showConnecting()).Times(1);
+        EXPECT_CALL(btsPortMock, sendAttachRequest(BTS_ID)).Times(1);
+        app.handleSib(BTS_ID);
+
+        EXPECT_CALL(userPortMock, showConnected()).Times(AtLeast(1));
+        app.handleAttachAccept();
+    }
+};
+
+// Test: Wysłanie SMS-a
+TEST_F(ApplicationSmsStateTestSuite, ShouldComposeAndSendSms)
+{
+    EXPECT_CALL(userPortMock, composeSMS()).Times(1);
+    app.getContext().setState<ComposeSmsState>();
+
+    EXPECT_CALL(btsPortMock, sendSms(RECEIVER, MESSAGE_TEXT)).Times(1);
+    EXPECT_CALL(userPortMock, showConnected()).Times(AtLeast(1));
+
+    app.handleSendSms(RECEIVER, MESSAGE_TEXT);
+
+    const auto& sms = app.getContext().smsDb.getAllSMS().front();
+    EXPECT_EQ(sms.text, MESSAGE_TEXT);
+    EXPECT_EQ(sms.phoneNumber, RECEIVER);
+    EXPECT_EQ(sms.direction, Sms::SmsDirection::Sent);
+}
+
+// Test: Odbieranie SMS-a i zapis w bazie
+TEST_F(ApplicationSmsStateTestSuite, ShouldReceiveAndStoreIncomingSms)
+{
+    EXPECT_CALL(userPortMock, showNewSmsNotification()).Times(1);
+    app.handleReceiveSMS(common::MessageId::Sms, SENDER, MESSAGE_TEXT);
+
+    const auto& sms = app.getContext().smsDb.getAllSMS().front();
+    EXPECT_EQ(sms.text, MESSAGE_TEXT);
+    EXPECT_EQ(sms.phoneNumber, SENDER);
+    EXPECT_EQ(sms.direction, Sms::SmsDirection::Received);
+    EXPECT_EQ(sms.status, Sms::SmsStatus::Unread);
+}
+
+// Test: Wyświetlanie listy SMS
+TEST_F(ApplicationSmsStateTestSuite, ShouldDisplaySmsList)
+{
+    app.getContext().smsDb.addSMS(SENDER, "msg1");
+    app.getContext().smsDb.addSMS(PHONE_NUMBER, "msg2");
+
+    EXPECT_CALL(userPortMock, showSmsList(_)).WillOnce(Invoke([](const SmsDb& db){
+        const auto& list = db.getAllSMS();
+        ASSERT_EQ(list.size(), 2);
+        EXPECT_EQ(list[0].text, "msg2");
+        EXPECT_EQ(list[1].text, "msg1");
+    }));
+
+    app.getContext().setState<ViewSmsListState>();
+}
+
+// Test: Wyświetlanie pojedynczej wiadomości
+TEST_F(ApplicationSmsStateTestSuite, ShouldDisplaySingleSms)
+{
+    app.getContext().smsDb.addSMS(SENDER, "text");
+
+    EXPECT_CALL(userPortMock, showSMS(_)).WillOnce(Invoke([](const Sms& sms) {
+        EXPECT_EQ(sms.text, "text");
+        EXPECT_EQ(sms.phoneNumber, common::PhoneNumber{123});
+    }));
+
+    app.getContext().setState<ViewSmsState>(0);
 }
 
   }
