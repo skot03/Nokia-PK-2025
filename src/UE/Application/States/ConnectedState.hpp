@@ -15,6 +15,7 @@ public:
     void handleSendSms(const common::PhoneNumber& to, const std::string& text) override;
     virtual void switchScreen();
     void handleViewSms(Sms& sms) override;
+    void handleTimeout() override;
 };
 
 }
