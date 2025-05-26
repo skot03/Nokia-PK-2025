@@ -25,6 +25,8 @@ public:
     void showPeerUserNotAvailable(common::PhoneNumber number) override;
     void showSmsList(SmsDb& smsdb) override;
     void showSMS(const Sms& sms) override;
+    void showNewSmsNotification() override;
+    void noNewSmsNotification() override;
     void showText(const std::string& text) override;
     int getSelectedSmsIndex() const override;
     void composeSMS() override; 

@@ -26,6 +26,8 @@ public:
     virtual void showSmsList(SmsDb& smsdb) = 0;
     virtual void showSMS(const Sms& sms) = 0;
     virtual void showText(const std::string& text) = 0;
+    virtual void showNewSmsNotification() = 0;
+    virtual void noNewSmsNotification() = 0;
     virtual int getSelectedSmsIndex() const = 0;
     virtual void composeSMS() = 0; 
     virtual void acceptCallback(IUeGui::Callback acceptCallback) = 0;
