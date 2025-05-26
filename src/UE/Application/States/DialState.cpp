@@ -16,7 +16,6 @@ namespace ue {
         logger.logDebug("DialState -> making request to: ", iDialMode.getPhoneNumber());
 
         context.bts.sendCallRequest(iDialMode.getPhoneNumber());
-        context.timer.startTimer(1000ms);
     }
 
     void DialState::handleCallMessage(common::MessageId msgId, common::PhoneNumber from) {

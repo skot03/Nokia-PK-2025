@@ -52,18 +52,22 @@ void ConnectedState::handleCallMessage(common::MessageId msgId, common::PhoneNum
 
             auto reject = [this, from]() {
                 logger.logDebug("Call ignored from " + to_string(from));
+                context.timer.stopTimer();
                 context.bts.sendCallDropped(from);
                 context.setState<ConnectedState>();
             };
 
             auto accept = [this, from]() {
                 logger.logDebug("Accepted call from " + to_string(from));
+                context.timer.stopTimer();
                 context.bts.sendCallAccept(from);
                 context.setState<TalkingState>();
             };
 
             context.user.rejectCallback(reject);
             context.user.acceptCallback(accept);
+
+            context.timer.startTimer(std::chrono::seconds(30));
             break;
         }
 
@@ -120,6 +124,15 @@ void ConnectedState::handleViewSms(Sms& sms)
     
 
     context.user.showText(fullText);
+}
+
+void ConnectedState::handleTimeout()
+{
+    logger.logInfo("Incoming call timeout – dropping call");
+
+    context.bts.sendCallDropped(context.phoneNumber);
+
+    context.setState<ConnectedState>();
 }
 }
 
