@@ -25,12 +25,15 @@ namespace ue {
         context.bts.sendCallDropped(context.phoneNumber);
         context.user.showConnected();
         context.setState<ConnectedState>();
+
     };
 
     auto guard = [this,&context]() -> bool {
         context.bts.sendCallDropped(context.phoneNumber);
         return true;
     };
+
+    context.user.homeCallback(nullptr);
 
     context.user.acceptCallback(onAccept);
     context.user.rejectCallback(onReject);
@@ -51,6 +54,7 @@ void TalkingState::handleCallMessage(common::MessageId msgId, common::PhoneNumbe
     switch (msgId) {
         case MessageId::CallDropped:
             logger.logInfo("Call terminated by peer:" + to_string(from));
+            context.user.setCloseGuard(nullptr);
             context.setState<ConnectedState>();
             context.user.showCallDropped();
             break;
