@@ -64,6 +64,13 @@ void ConnectedState::handleCallMessage(common::MessageId msgId, common::PhoneNum
                 context.setState<TalkingState>();
             };
 
+            auto guard = [this]() -> bool {
+                logger.logInfo("Application closed while incoming call pending – sending CallDropped");
+                context.bts.sendCallDropped(context.phoneNumber);
+                return true; 
+            };
+
+            context.user.setCloseGuard(guard);
             context.user.rejectCallback(reject);
             context.user.acceptCallback(accept);
 
@@ -74,6 +81,14 @@ void ConnectedState::handleCallMessage(common::MessageId msgId, common::PhoneNum
         case MessageId::CallAccepted: {
             logger.logInfo("Accepted call from " + to_string(from));
             context.setState<TalkingState>();
+            break;
+        }
+        case MessageId::CallDropped: {
+            logger.logInfo("Call dropped by " + to_string(from));
+            context.user.setCloseGuard(nullptr);
+            context.timer.stopTimer();
+            context.setState<ConnectedState>();
+            context.user.showCallDropped();
             break;
         }
 

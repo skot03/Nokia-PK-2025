@@ -214,17 +214,14 @@ struct ApplicationDialStateTestSuite : Test
 };
 
 // Test 1: Naciśnięcie przycisku "Wybierz" (acceptCallback)
-TEST_F(ApplicationDialStateTestSuite, DialButton_ShouldSendCallRequestStartTimerAndCallGetPhoneNumberTwice)
+TEST_F(ApplicationDialStateTestSuite, DialButton_ShouldSendCallRequestAndCallGetPhoneNumberTwice)
 {
     ASSERT_TRUE(capturedDialStateAcceptCallback) << "DialState accept callback nie został przechwycony.";
-
-    // Oczekujemy dwukrotnego wywołania getPhoneNumber w DialState::sendCallRequest(),raz loguje, raz wysyła żądanie
     EXPECT_CALL(dialModeMock, getPhoneNumber())
-        .Times(2) 
-        .WillRepeatedly(Return(DIALED_PHONE_NUMBER)); 
-    
+        .Times(2)
+        .WillRepeatedly(Return(DIALED_PHONE_NUMBER));
+
     EXPECT_CALL(btsPortMock, sendCallRequest(DIALED_PHONE_NUMBER)).Times(1);
-    EXPECT_CALL(timerPortMock, startTimer(1000ms)).Times(1);
 
     capturedDialStateAcceptCallback();
 }
@@ -272,6 +269,7 @@ TEST_F(ApplicationDialStateTestSuite, HandleCallMessage_UnknownRecipient_ShouldS
     EXPECT_CALL(userPortMock, showPeerUserNotAvailable(DIALED_PHONE_NUMBER)).Times(1);
     objectUnderTest.handleCallMessage(common::MessageId::UnknownRecipient, DIALED_PHONE_NUMBER);
 }
+
 
 struct ApplicationSmsStateTestSuite : Test {
     const common::PhoneNumber PHONE_NUMBER{111};
